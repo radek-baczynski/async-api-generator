@@ -1,0 +1,61 @@
+{% from "./sliced-string.html" import slicedString %}
+{% from "./tags.html" import tags %}
+{% from "./message.html" import message %}
+
+{% macro operation(operation, operationType, channelName, channel) %}
+
+<a name="operation-{{operationType}}-{{channelName}}"></a>
+<div class="center-block p-8">
+  <div class="operation pt-8 pb-8">
+    <h3 class="font-mono text-base">
+      {% if operationType === 'publish' %}
+      <span class="font-mono border border-blue text-blue uppercase p-1 rounded" title="Publish">Pub</span>
+      {% endif %}
+      {% if operationType === 'subscribe' %}
+      <span class="font-mono border border-green-dark text-green-dark uppercase p-1 rounded"
+            title="Subscribe">Sub</span>
+      {% endif %}
+      {{ slicedString(channelName) }}
+    </h3>
+    <div class="mt-4 mb-4 markdown">{{ channel.description() | markdown2html | safe }}</div>
+
+    <p class="text-grey text-sm">{{operation.summary()}}</p>
+    <div class="mt-4 mb-4 markdown">{{ operation.description() | markdown2html | safe }}</div>
+
+
+    <div class="text-xs mt-2 mb-4">
+      <img src="img/rabbitmq.svg" width="12" height="12" class="mr-3" />
+      <div class="flex mt-1">
+        <div class="w-1/6 text-right">
+          <span class="font-mono">routing key</span>
+        </div>
+        <div class="w-2/3 pl-2">
+          <span class="font-mono rounded p-1 text-green border border-green">{{ operation.extension('x-rabbitmq-routing-key') }}</span>
+        </div>
+      </div>
+
+      <div class="flex mt-1">
+        <div class="w-1/6 text-right">
+          <span class="font-mono">exchange</span>
+        </div>
+        <div class="w-1/3 pl-2">
+          <span class="font-mono rounded p-1 text-green border border-green">{{ operation.extension('x-rabbitmq-exchange') }}</span>
+        </div>
+      </div>
+    </div>
+
+    {% if operation.hasMultipleMessages() %}
+    <p>Accepts <strong>one of</strong> the following messages:</p>
+    {% for msg in operation.messages() %}
+    {{ message(msg, showIndex=true, index=loop.index, open=false) }}
+    {% endfor %}
+    {% else %}
+    <p>Accepts the following message:</p>
+    {{ message(operation.message(0), showIndex=false, open=true) }}
+    {% endif %}
+
+    {{ tags(operation.tags()) }}
+  </div>
+</div>
+
+{% endmacro %}
