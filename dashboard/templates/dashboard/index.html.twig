@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DashboardController!{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row mt-5">
+			<div class="col-lg-8">
+				<h3>Docplanner async documentation directory</h3>
+				<hr/>
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-lg-8">
+				{% for name, app in apps %}
+					<div class="list-group">
+						<h4>{{ name }}</h4>
+						{% for branch in app.branches %}
+							{% if branch.docs|default([]) %}
+								<div class="list-group-item list-group-item-action">
+									<h5>
+										<img height="22" width="22" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg" class="mr-2"/>
+										{{ branch.name }}
+									</h5>
+									<ul>
+										{% for doc in branch.docs %}
+											<li class="d-flex w-100 justify-content-between">
+												<a href="{{ doc.url }}">
+													{{ doc.info.title }}
+													<span class="badge badge-dark ml-2">API</span>
+												</a>
+												<small class="text-muted">{{ doc.info.version }}</small>
+											</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
+						{% endfor %}
+					</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
