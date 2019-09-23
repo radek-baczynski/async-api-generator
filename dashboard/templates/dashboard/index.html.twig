@@ -29,7 +29,7 @@
 													{{ doc.info.title }}
 													<span class="badge badge-dark ml-2">API</span>
 												</a>
-												<small class="text-muted">{{ doc.info.version }}</small>
+												<small class="text-muted">{{ doc.info.version|date('Y/m/d H:i') }}</small>
 											</li>
 										{% endfor %}
 									</ul>

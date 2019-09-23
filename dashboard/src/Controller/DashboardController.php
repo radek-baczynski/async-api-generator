@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Aws\Credentials\Credentials;
 use Aws\S3\S3Client;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Yaml\Yaml;
@@ -12,6 +13,14 @@ class DashboardController extends AbstractController
 {
     const BUCKET_NAME    = 'async-docs.dq.docplanner.io';
     const DOCS_S3_BUCKET = 'http://async-docs.dq.docplanner.io';
+
+    private $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
 
     /**
      * @Route("/", name="dashboard")
@@ -102,7 +111,7 @@ class DashboardController extends AbstractController
                     }
 
                 } catch (\Exception $e) {
-                    $e;
+                    $this->logger->error($e);
                 }
             }
         }
