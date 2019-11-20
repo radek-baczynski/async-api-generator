@@ -7,9 +7,9 @@ inputs:
   outputDir:
     description: 'Output directory where to store generated html documentation'
     required: true
-#outputs:
-#  time: # id of output
-#    description: 'The time we greeted you'
+outputs:
+  docsDir:
+    description: 'Directory where docs are stored'
 runs:
   using: 'docker'
   image: 'Dockerfile'
