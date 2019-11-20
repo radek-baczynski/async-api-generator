@@ -13,6 +13,8 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  args:
+    - ${{ inputs.file }} ${{ inputs.outputDir }}
 
 #  args:
 #    - ${{ inputs.who-to-greet }}
