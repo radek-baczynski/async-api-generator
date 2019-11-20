@@ -1,15 +1,18 @@
 name: 'Generate async docs'
 description: 'https://asyncapi.com'
-#inputs:
-#  who-to-greet:  # id of input
-#    description: 'Who to greet'
-#    required: true
-#    default: 'World'
+inputs:
+  file:
+    description: 'Yaml or JSON file with api specification'
+    required: true
+  outputDir:
+    description: 'Output directory where to store generated html documentation'
+    required: true
 #outputs:
 #  time: # id of output
 #    description: 'The time we greeted you'
 runs:
   using: 'docker'
   image: 'Dockerfile'
+
 #  args:
 #    - ${{ inputs.who-to-greet }}
